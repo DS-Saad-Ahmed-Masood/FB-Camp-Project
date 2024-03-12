@@ -11,7 +11,8 @@ import random
 
 df = pd.read_excel('Social_FB.xlsx')
 
-X = df.drop(columns=['approved_conversion'])
+#X = df.drop(columns=['approved_conversion'])
+X = df.drop(columns=['approved_conversion','ad_id','xyz_campaign_id','fb_campaign_id'])
 y = df['approved_conversion']
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
