@@ -9,26 +9,19 @@ from sklearn.tree import plot_tree
 import streamlit as st
 import random
 
-st.title('Live Prediction Of Expected Conversion')
-
 df = pd.read_excel('Social_FB.xlsx')
 
 X = df.drop(columns=['approved_conversion'])
 y = df['approved_conversion']
-
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
 categorical_features = ['gender', 'ad_region']
-
-
 categorical_features = [feature for feature in categorical_features if feature in X.columns]
-
 
 preprocessor = ColumnTransformer(
     transformers=[
         ('cat', OneHotEncoder(), categorical_features)
     ])
-preprocessor
 
 pipeline = Pipeline(steps=[('preprocessor', preprocessor),
                            ('classifier', DecisionTreeClassifier(random_state=42))])
@@ -88,7 +81,7 @@ def generate_suggestion(prediction, user_input):
             return "Your ad campaign might not be approved."
 
 def main():
-    st.title('Live Prediction Of Expected Conversion test6')
+    st.title('Live Prediction Of Expected Conversion')
 
     # Get user input
     user_input = {
