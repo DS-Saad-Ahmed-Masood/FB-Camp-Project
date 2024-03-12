@@ -12,7 +12,6 @@ import random
 st.title('Live Prediction Of Expected Conversion')
 
 df = pd.read_excel('Social_FB.xlsx')
-df
 
 X = df.drop(columns=['approved_conversion'])
 y = df['approved_conversion']
