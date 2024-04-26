@@ -9,6 +9,12 @@ from sklearn.tree import plot_tree
 import streamlit as st
 import random
 
+# Set page title and icon
+st.set_page_config(
+page_title="FB Campaign",
+page_icon="📢",layout="wide"
+)
+
 df = pd.read_excel('Social_FB.xlsx')
 
 #X = df.drop(columns=['approved_conversion'])
@@ -82,33 +88,59 @@ def generate_suggestion(prediction, user_input):
             return "Your ad campaign might not be approved."
 
 def main():
+    # # Set page title and icon
+    # st.set_page_config(
+    # page_title="FB Campaign",
+    # page_icon="📢",layout="wide"
+    # )
     st.title('Live Prediction Of Expected Conversion')
 
-    # Get user input
-    user_input = {
-        'ad_id': st.text_input('Enter Ad ID'),
-        'xyz_campaign_id': st.selectbox('Select XYZ Campaign ID', [916, 936, 1178]),
-        'fb_campaign_id': st.text_input('Enter FB Campaign ID'),
-        'campaign_date': st.date_input('Select Campaign Date'),
-        'age': st.slider('Select Age', 18, 65, 30),
-        'gender': st.selectbox('Select Gender', ['M', 'F']),
-        'interest': st.slider('Select Interest', 1, 70, 30),
-        'ad_region': st.selectbox("Select ad region", ["Karachi", "Hyderabad", "Lahore", "Islamabad", "Quetta", "Peshawar"]),        
-        'spent': st.number_input('Enter Amount Spent $')
-    }
+    with st.container():
+        col1,col2= st.columns(spec=[0.3,0.7], gap="small")
 
-    # Map ad region text back to numerical values cause original and training data-set is in numeric form, using for ad_region dropdown box
-    region_mapping = {"Karachi": 1, "Hyderabad": 2, "Lahore": 3, "Islamabad": 4, "Quetta": 5, "Peshawar": 6}
-    user_input['ad_region'] = region_mapping.get(user_input.get('ad_region'))
+    with col2:
+        st.image("https://www.socialchamp.io/wp-content/uploads/2021/08/Feature-Banner_JulyOnwards-Q3-2021_1125x600_04.png.webp",use_column_width=True)
+        st.header("Welcome to My Facebook Campaign Conversion Prediction App!")
+        st.write("This application is designed to help you predict the success of your Facebook ad campaigns in terms of conversions. By providing details about your ad campaign, such as ad ID, campaign ID, age, gender, interests, region, and the amount spent, our app utilizes a (Machine Learning) model to forecast whether your campaign is likely to result in conversions or not.")
+        st.write("Here's how it works:")
 
-    if st.button('Predict'):
-        # Make prediction
-        prediction = get_suggestions(user_input)
-        st.write('Predicted Approval:', prediction)
+        st.subheader("1.Input Your Campaign Details:")
+        st.write("Enter the required information about your Facebook ad campaign, including ad ID, campaign ID, age, gender, interests, region, and the amount spent.")
         
-        # Provide practical segmentation suggestions based on the prediction
-        suggestion = generate_suggestion(prediction[0], user_input)
-        st.write('Suggestion:', suggestion)
+        st.subheader("2.Get Predictions:")
+        st.write("Once you've entered the campaign details, our machine learning model will analyze the data and provide you with a prediction on whether your campaign is likely to be successful or not.")
+        
+        st.subheader("3.Make Informed Decisions:")
+        st.write("Based on the prediction, you can make informed decisions about your Facebook ad campaigns, optimizing your marketing strategies for better results.")
+        st.write("Whether you're a marketer, advertiser, or business owner, this Facebook Campaign Conversion Prediction App is here to help you enhance the effectiveness of your advertising efforts and achieve your marketing goals. Start predicting the success of your Facebook ad campaigns today!")
+        st.success("Created by:**Mr. Saad Ahmed Masood**")
+
+    with col1:
+    # Get user input
+        user_input = {
+            'ad_id': st.text_input('Enter Ad ID'),
+            'xyz_campaign_id': st.selectbox('Select XYZ Campaign ID', [916, 936, 1178]),
+            'fb_campaign_id': st.text_input('Enter FB Campaign ID'),
+            'campaign_date': st.date_input('Select Campaign Date'),
+            'age': st.slider('Select Age', 18, 65, 30),
+            'gender': st.selectbox('Select Gender', ['M', 'F']),
+            'interest': st.slider('Select Interest', 1, 70, 30),
+            'ad_region': st.selectbox("Select ad region", ["Karachi", "Hyderabad", "Lahore", "Islamabad", "Quetta", "Peshawar"]),        
+            'spent': st.number_input('Enter Amount Spent $')
+        }
+
+        # Map ad region text back to numerical values cause original and training data-set is in numeric form, using for ad_region dropdown box
+        region_mapping = {"Karachi": 1, "Hyderabad": 2, "Lahore": 3, "Islamabad": 4, "Quetta": 5, "Peshawar": 6}
+        user_input['ad_region'] = region_mapping.get(user_input.get('ad_region'))
+
+        if st.button('Predict'):
+            # Make prediction
+            prediction = get_suggestions(user_input)
+            st.write('Predicted Approval:', prediction)
+            
+            # Provide practical segmentation suggestions based on the prediction
+            suggestion = generate_suggestion(prediction[0], user_input)
+            st.write('Suggestion:', suggestion)
 
 if __name__ == "__main__":
     main()
